@@ -96,6 +96,34 @@
     .mystery-signal { width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:#c6a06a; box-shadow:0 0 12px rgba(198,160,106,.65); }
     .mystery-footer strong { color:#d9bd91; font:10px var(--mono); letter-spacing:.08em; text-transform:uppercase; line-height:1.6; }
     footer { display:flex; justify-content:space-between; gap:15px; border-top:1px solid var(--line); margin-top:46px; padding-top:17px; color:#68736b; font:9px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+
+    .access-gate {
+      position:fixed; inset:0; z-index:1000; display:grid; place-items:center;
+      padding:24px; background:radial-gradient(ellipse at 50% 0%, #28322b 0%, transparent 48%), #101311;
+    }
+    .access-card {
+      width:min(430px,100%); padding:34px; border:1px solid #485148;
+      background:linear-gradient(145deg,rgba(29,36,32,.98),rgba(17,21,18,.99));
+      box-shadow:0 30px 100px rgba(0,0,0,.48);
+    }
+    .access-mark {
+      width:46px; height:46px; display:grid; place-items:center; margin-bottom:30px;
+      border:1px solid #7f725b; border-radius:50%; color:var(--accent); font:15px var(--mono);
+    }
+    .access-card h1 { margin:12px 0; font-size:34px; }
+    .access-copy { color:#aeb7ae; font-size:13px; line-height:1.8; margin:0 0 25px; }
+    .access-label { display:block; margin-bottom:9px; color:var(--muted); font:10px var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+    .access-input {
+      width:100%; height:48px; padding:0 14px; border:1px solid #465047; outline:none;
+      background:#0e120f; color:var(--text); font:15px var(--mono); letter-spacing:.16em;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    .access-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(198,160,106,.12); }
+    .access-submit { width:100%; margin-top:13px; }
+    .access-error { min-height:18px; margin:12px 0 0; color:#d58a7f; font:10px var(--mono); letter-spacing:.05em; }
+    .access-foot { display:flex; justify-content:space-between; gap:12px; margin-top:24px; padding-top:16px; border-top:1px solid var(--line); color:#68736b; font:9px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+    .access-gate.unlocking { animation:unlockFade .35s ease forwards; }
+    @keyframes unlockFade { to { opacity:0; visibility:hidden; } }
     @media (max-width:700px) {
       .shell { width:min(100% - 26px, 600px); padding-top:18px; }
       .intro { padding-top:45px; }
@@ -116,6 +144,20 @@
   </style>
 </head>
 <body>
+
+  <section class="access-gate" id="accessGate" aria-label="Acesso ao arquivo">
+    <form class="access-card" id="accessForm">
+      <div class="access-mark">CA</div>
+      <div class="eyebrow">Central de Arquivos · Segurança</div>
+      <h1>Acesso restrito.</h1>
+      <p class="access-copy">Este arquivo requer uma credencial válida para liberar a consulta dos registros.</p>
+      <label class="access-label" for="accessPassword">Senha de acesso</label>
+      <input class="access-input" id="accessPassword" name="password" type="password" placeholder="Digite sua senha" autocomplete="off" autocapitalize="characters" spellcheck="false" required />
+      <button class="primary access-submit" type="submit">Autenticar acesso <span aria-hidden="true">↗</span></button>
+      <p class="access-error" id="accessError" role="alert" aria-live="polite"></p>
+      <div class="access-foot"><span>Documento 001</span><span>Credencial necessária</span></div>
+    </form>
+  </section>
   <main class="shell">
     <header class="topbar">
       <div class="brand"><div class="seal">CA</div><div>Central de Arquivos<br><span style="color:var(--muted);font-weight:500;font-size:9px">Núcleo de registros especiais</span></div></div>
@@ -206,6 +248,28 @@
     <footer><span>Central de Arquivos · Registro 001</span><span>Consulta de cadastro · Revisão 23 NOV 2026</span></footer>
   </main>
   <script>
+
+    const accessGate = document.getElementById('accessGate');
+    const accessForm = document.getElementById('accessForm');
+    const accessPassword = document.getElementById('accessPassword');
+    const accessError = document.getElementById('accessError');
+    const ACCESS_CODE = 'R0N4LD0';
+
+    accessForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (accessPassword.value.trim() === ACCESS_CODE) {
+        accessError.textContent = '';
+        accessGate.classList.add('unlocking');
+        window.setTimeout(() => {
+          accessGate.remove();
+          document.getElementById('openBtn').focus();
+        }, 350);
+      } else {
+        accessError.textContent = 'CREDENCIAL NÃO RECONHECIDA. TENTE NOVAMENTE.';
+        accessPassword.value = '';
+        accessPassword.focus();
+      }
+    });
     const welcome = document.getElementById('welcome');
     const report = document.getElementById('report');
     document.getElementById('openBtn').addEventListener('click', () => {
