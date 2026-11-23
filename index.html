@@ -124,6 +124,23 @@
     .access-foot { display:flex; justify-content:space-between; gap:12px; margin-top:24px; padding-top:16px; border-top:1px solid var(--line); color:#68736b; font:9px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
     .access-gate.unlocking { animation:unlockFade .35s ease forwards; }
     @keyframes unlockFade { to { opacity:0; visibility:hidden; } }
+
+    .photo-record {
+      display:grid; grid-template-columns:112px minmax(0,1fr); gap:20px; align-items:center;
+      margin-top:19px; padding:18px; border:1px solid #514638; background:rgba(0,0,0,.16);
+    }
+    .photo-record-mark {
+      aspect-ratio:1; display:grid; place-items:center; border:1px solid #554b3b;
+      background:linear-gradient(145deg,rgba(198,160,106,.12),rgba(0,0,0,.14)); color:var(--accent);
+    }
+    .photo-record-mark svg { width:34px; height:34px; stroke:currentColor; fill:none; stroke-width:1.3; }
+    .photo-record-description { color:#b8b7ac; font-size:13px; line-height:1.8; margin:12px 0 0; max-width:620px; }
+    .photo-record-meta { display:flex; flex-wrap:wrap; gap:22px; margin-top:17px; }
+    .photo-record-meta .photo-meta { min-width:140px; border-top:1px solid var(--line); padding:10px 0; }
+    @media (max-width:700px) {
+      .photo-record { grid-template-columns:1fr; }
+      .photo-record-mark { width:84px; }
+    }
     @media (max-width:700px) {
       .shell { width:min(100% - 26px, 600px); padding-top:18px; }
       .intro { padding-top:45px; }
@@ -206,22 +223,23 @@
       </div>
 
       <section class="photo-card">
-        <div class="photo-top"><h3>03 / Acervo iconográfico</h3><div class="count">01 REGISTRO</div></div>
-        <div class="photo-entry">
-          <figure class="photo-frame">
-            <a href="./foto-001.webp" target="_blank" rel="noopener" aria-label="Abrir fotografia em tamanho original">
-              <img src="./foto-001.webp" alt="Fotografia em um ambiente interno de centro de convenções: uma pessoa em primeiro plano e outras duas pessoas ao fundo, posando para a câmera." loading="lazy" />
-            </a>
-          </figure>
+        <div class="photo-top"><h3>03 / Acervo iconográfico</h3><div class="count">01 REGISTRO CATALOGADO</div></div>
+        <div class="photo-record">
+          <div class="photo-record-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="30" rx="2"></rect><circle cx="17" cy="20" r="4"></circle><path d="m7 34 11-9 7 6 6-5 10 8"></path><path d="M13 5h22"></path></svg>
+          </div>
           <div class="photo-details">
             <div class="photo-index">Registro visual · 001-A</div>
-            <h4>Registro de 31 de janeiro</h4>
-            <div class="photo-meta"><span class="label">Data informada</span><div class="value">31 de janeiro</div></div>
-            <div class="photo-meta"><span class="label">Local</span><div class="value">Centro de Convenções · Maceió, AL</div></div>
-            <div class="photo-status">IMAGEM ANEXADA AO DOSSIÊ</div>
+            <h4>Fotografia catalogada</h4>
+            <p class="photo-record-description">O registro mostra uma pessoa em primeiro plano, com outras duas pessoas ao fundo, em um ambiente interno de convenções. A imagem consta no acervo visual deste arquivo.</p>
+            <div class="photo-record-meta">
+              <div class="photo-meta"><span class="label">Data</span><div class="value">31 de janeiro</div></div>
+              <div class="photo-meta"><span class="label">Local</span><div class="value">Centro de Convenções · Maceió, AL</div></div>
+            </div>
+            <div class="photo-status">REGISTRO VISUAL CATALOGADO</div>
           </div>
         </div>
-        <p class="footnote">ACERVO ICONOGRÁFICO: 01 IMAGEM ANEXADA · REGISTRO 001-A</p>
+        <p class="footnote">ACERVO ICONOGRÁFICO: 01 REGISTRO · CONSULTA DESCRITIVA</p>
       </section>
 
       <section class="reveal">
