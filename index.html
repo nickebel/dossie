@@ -273,16 +273,27 @@
     const accessPassword = document.getElementById('accessPassword');
     const accessError = document.getElementById('accessError');
     const ACCESS_CODE = 'R0N4LD0';
+    const AUTH_SESSION_KEY = 'dossie-authenticated';
+
+    function unlockArchive(animate) {
+      accessError.textContent = '';
+      if (animate) {
+        accessGate.classList.add('unlocking');
+        window.setTimeout(() => accessGate.remove(), 350);
+      } else {
+        accessGate.remove();
+      }
+    }
+
+    if (sessionStorage.getItem(AUTH_SESSION_KEY) === 'true') {
+      unlockArchive(false);
+    }
 
     accessForm.addEventListener('submit', (event) => {
       event.preventDefault();
       if (accessPassword.value.trim() === ACCESS_CODE) {
-        accessError.textContent = '';
-        accessGate.classList.add('unlocking');
-        window.setTimeout(() => {
-          accessGate.remove();
-          document.getElementById('openBtn').focus();
-        }, 350);
+        sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
+        unlockArchive(true);
       } else {
         accessError.textContent = 'CREDENCIAL NÃO RECONHECIDA. TENTE NOVAMENTE.';
         accessPassword.value = '';
